@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: px4io/px4-dev-nuttx:2019-07-29
+    steps:
+      - checkout
+      - run:
+          name: Fetch tags
+          command: git fetch --tags
+      - run:
+          name: Build px4_fmu-v4_default
+          command: make px4_fmu-v4_default
+      - run:
+          name: Build px4_fmu-v4_NHv2
+          command: make px4_fmu-v4_NHv2
+      - store_artifacts:
+          path: build/px4_fmu-v4_default/px4_fmu-v4_default.px4
+          destination: px4_fmu-v4_default.px4
+      - store_artifacts:
+          path: build/px4_fmu-v4_default/px4_fmu-v4_default.elf
+          destination: px4_fmu-v4_default.elf
+      - store_artifacts:
+          path: build/px4_fmu-v4_NHv2/px4_fmu-v4_NHv2.px4
+          destination: px4_fmu-v4_NHv2.px4
+      - store_artifacts:
+          path: build/px4_fmu-v4_NHv2/px4_fmu-v4_NHv2.elf
+          destination: px4_fmu-v4_NHv2.elf
